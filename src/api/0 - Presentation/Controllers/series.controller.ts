@@ -1,12 +1,16 @@
+import { DependencyInjectionTokens } from '@core/IoC Crosscutting/di.tokens';
 import { Series } from '@domain/Entities/series.entity';
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
 import { SeriesCreateAndEditViewModel } from '@presentation/View Models/Series View Models/seriesCreateAndEdit.viewmodel';
 import { SeriesListViewModel } from '@presentation/View Models/Series View Models/seriesList.viewmodel';
-import { SeriesService } from '@services/Series/series.service';
+import { ISeriesServiceInterface } from '@services/Series/iseries.interface.service';
 
 @Controller('series')
 export class SeriesController {
-  constructor(private seriesService: SeriesService) {}
+  constructor(
+    @Inject(DependencyInjectionTokens.ISeriesServiceInterface)
+    private seriesService: ISeriesServiceInterface,
+  ) {}
 
   @Get()
   async getAllSeries(): Promise<SeriesListViewModel[]> {
