@@ -6,6 +6,16 @@ export const setupSwagger = (nestApp: INestApplication, logger: Logger) => {
     .setTitle('Series API')
     .setDescription('The Series API Documentation')
     .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
     .build();
 
   const swaggerPath = '/api-doc';
