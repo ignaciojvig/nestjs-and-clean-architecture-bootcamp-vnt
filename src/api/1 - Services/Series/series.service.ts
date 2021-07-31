@@ -1,5 +1,5 @@
 import { Series } from '@domain/Entities/series.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ISeriesServiceInterface } from '@services/Series/iseries.interface.service';
 import { Repository } from 'typeorm';
@@ -16,5 +16,15 @@ export class SeriesService implements ISeriesServiceInterface {
 
   async createSeries(newSeries: Series): Promise<Series> {
     return await this.seriesRepository.save(newSeries);
+  }
+
+  async getMibMovie(mibId: string): Promise<Series> {
+    const mibMovie = await this.seriesRepository.findOne({ id: mibId });
+
+    if (!mibMovie) {
+      throw new UnprocessableEntityException('mibmovie-not-existent');
+    }
+
+    return mibMovie;
   }
 }

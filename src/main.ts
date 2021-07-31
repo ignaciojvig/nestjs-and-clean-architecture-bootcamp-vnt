@@ -3,6 +3,7 @@ import { NestFactory } from '@nestjs/core';
 import { ApiExceptionFilter } from '@presentation/Filters/api-exception.filter';
 import { setupSwagger } from 'src/environment/swagger/swagger.configuration';
 import { AppModule } from './app.module';
+import * as helmet from 'helmet';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +11,7 @@ async function bootstrap() {
 
   setupSwagger(app, logger);
 
+  app.use(helmet());
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new ApiExceptionFilter());
 
